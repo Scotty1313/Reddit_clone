@@ -23,7 +23,7 @@ export default function Header() {
     const { data: session } = useSession()
 
     return (
-        <div className="sticky top-0 z-50 flex bg-white px-4 py-2 shadow-sm">
+        <div className="sticky top-0 z-50 flex bg-white py-2 shadow-sm">
             <div className="relative h-10 w-40 flex-shrink-0 cursor-pointer">
                 <Image 
                 src="https://i.postimg.cc/qBQSyGs1/Reddit-Logo-wine2-1.png" 
@@ -32,10 +32,10 @@ export default function Header() {
                 fill />
             </div>
 
-            <div className="mx-7 flex items-center xl:min-w-[300px]">
+            <div className="mx-2 flex items-center ">
                 <HomeIcon className="h-6 w-6"/>
-                <p className="ml-2 flex-1 lg:inline">Home</p>
-                <ChevronDownIcon className="h-6 w-6"/>
+                <p className="ml-1 flex-1">Home</p>
+                <ChevronDownIcon className="h-6 w-6 cursor-pointer"/>
             </div>
 
             {/* Search box */}
@@ -50,7 +50,7 @@ export default function Header() {
             </form>
             
             {/* Menu Items */}
-            <div className="mx-5 hidden items-center space-x-2 text-gray-500
+            <div className="mx-3 hidden items-center space-x-1 text-gray-500
             lg:inline-flex">
                 <SparklesIcon className="icon" />
                 <GlobeIcon className="icon" />
@@ -65,14 +65,14 @@ export default function Header() {
                         {/* ToDo: Fill in burger menu! */}
 
             {/* Burger Menu */}
-            <div className="ml-5 flex items-center lg:hidden">
+            <div className="px-4 flex items-center lg:hidden">
                 <MenuIcon className="icon" />
             </div>
 
             {/* Sign in/out button */}
             { session ? (
                 <div onClick={() => signOut()} 
-                className="hidden cursor-pointer items-center space-x-2 border
+                className="hidden cursor-pointer items-center space-x-1 border
                  border-gray-100 p-2 lg:flex">
                     <div className="relative h-6 w-6 flex-shrink-0">
                         <UserIcon />
@@ -80,7 +80,7 @@ export default function Header() {
 
                     <div className="flex-1 text-xs">
                         <p className="truncate">{session?.user?.name}</p>
-                        <p className="text-gray-400">1 Karma</p>
+                        <p className="text-gray-400">123 Karma</p>
                     </div>
 
                     <ChevronDownIcon className="h-6 flex-shrink-0 text-gray-400" />
