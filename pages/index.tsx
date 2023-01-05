@@ -5,7 +5,7 @@ import PostBox from "../components/PostBox"
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <div className="my-7 mx-auto max-w-5xl">
       <Head>
         <title>Reddit clone by Scott Macdonald</title>
         <meta name="description" content="Reddit clone by Scott Macdonald" />
