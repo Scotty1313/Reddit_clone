@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react"
 import Avatar from "./Avatar"
 import { LinkIcon, PhotographIcon } from "@heroicons/react/outline"
 import { useForm } from "react-hook-form"
+import { useState } from "react"
 
 type FormData = {
     postTitle: string
@@ -12,6 +13,7 @@ type FormData = {
 
 export default function PostBox() {
     const { data: session } = useSession()
+    const [ imageBoxOpen, setImageBoxOpen ] = useState(false)
     const {
         register,
         setValue,
@@ -20,8 +22,14 @@ export default function PostBox() {
         formState: { errors },
     } = useForm<FormData>()
 
+    const onSubmit = handleSubmit(async (formData) => {
+        console.log(formData)
+    })
+
     return (
-    <form className="sticky top-16 z-50 rounded-md border border-gray-300 
+    <form 
+    onSubmit={onSubmit}
+    className="sticky top-16 z-50 rounded-md border border-gray-300 
     bg-white p-2">
         <>
             <div className="flex items-center space-x-3">
@@ -37,7 +45,12 @@ export default function PostBox() {
                     }
                 />
 
-                <PhotographIcon className={`h-6 text-gray-300 cursor-pointer`} />
+                <PhotographIcon 
+                    onClick={() => setImageBoxOpen(!imageBoxOpen)} 
+                    className={`h-6 text-gray-300 cursor-pointer ${
+                        imageBoxOpen && "text-blue-400"
+                }`} 
+                />
                 <LinkIcon className="h-6 text-gray-300" />
             </div>
             
@@ -52,10 +65,52 @@ export default function PostBox() {
                             type="text"
                             placeholder="Text (optional)"
                         />
-
                     </div>
-               </div>
-            )}
+
+                    <div className="flex items-center px-2">
+                        <p className="min-w-[90px]">Subreddit:</p>
+                        <input 
+                            className="m-2 flex-1 bg-blue-50 p-2 outline-none"
+                            {...register('subreddit',{ required: true  })}
+                            type="text"
+                            placeholder="i.e r/reactjs"
+                        />
+                    </div>  
+
+                    {imageBoxOpen && (
+                        <div className="flex items-center px-2">
+                            <p className="min-w-[90px]">Image URL:</p>
+                            <input 
+                                className="m-2 flex-1 bg-blue-50 p-2 outline-none"
+                                {...register('postImage')}
+                                type="text"
+                                placeholder="Optional..."
+                            />
+                        </div>
+                    )}                    
+
+                    {/* Errors */}
+                    {Object.keys(errors).length > 0 && (
+                        <div className="space-y-2 p-2 text-red-500">
+                            {errors.postTitle?.type === "required" && (
+                                <p>- A Post Title is required</p>
+                            )}
+
+                            {errors.subreddit?.type === "required" && (
+                                <p>- A Subreddit is required</p>
+                            )}
+                        </div>
+                    )}
+                
+                {!!watch("postTitle") && (
+                    <button type="submit" 
+                    className="w-full rounded-full p-2 bg-blue-400 text-white"
+                    >
+                        Create Post
+                    </button>
+                )}
+            </div>        
+        )}
         </>
     </form>
     )
