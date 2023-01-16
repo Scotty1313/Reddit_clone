@@ -3,6 +3,9 @@ import Avatar from "./Avatar"
 import { LinkIcon, PhotographIcon } from "@heroicons/react/outline"
 import { useForm } from "react-hook-form"
 import { useState } from "react"
+import { ADD_POST } from "../graphql/mutations"
+import { useMutation } from "@apollo/client"
+import client from "../apollo-client"
 
 type FormData = {
     postTitle: string
@@ -13,6 +16,8 @@ type FormData = {
 
 export default function PostBox() {
     const { data: session } = useSession()
+    const [addPost] = useMutation(ADD_POST)
+
     const [ imageBoxOpen, setImageBoxOpen ] = useState(false)
     const {
         register,
@@ -24,6 +29,27 @@ export default function PostBox() {
 
     const onSubmit = handleSubmit(async (formData) => {
         console.log(formData)
+
+        try {
+            // Query for subreddit topic
+            const { 
+                data: { getSubredditListByTopic },
+            } =   await client.query({
+                query: GET_SUBREDDIT_BY_TOPIC,
+                variables: {
+                    topic: formData.subreddit
+                }
+            })
+
+            const subredditExists = getSubredditListByTopic.length > 0;
+
+            if (!subredditExists) {
+                // create subreddit
+            } else {
+                // use existing subreddit
+            }
+
+        } catch (error) {}
     })
 
     return (
@@ -103,10 +129,11 @@ export default function PostBox() {
                     )}
                 
                 {!!watch("postTitle") && (
-                    <button type="submit" 
+                    <button 
+                    type="submit" 
                     className="w-full rounded-full p-2 bg-blue-400 text-white"
                     >
-                        Create Post
+                    Create Post
                     </button>
                 )}
             </div>        
