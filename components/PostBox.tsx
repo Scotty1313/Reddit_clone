@@ -3,9 +3,10 @@ import Avatar from "./Avatar"
 import { LinkIcon, PhotographIcon } from "@heroicons/react/outline"
 import { useForm } from "react-hook-form"
 import { useState } from "react"
-import { ADD_POST } from "../graphql/mutations"
+import { ADD_POST, ADD_SUBREDDIT } from "../graphql/mutations"
 import { useMutation } from "@apollo/client"
 import client from "../apollo-client"
+import { GET_SUBREDDIT_BY_TOPIC } from "../graphql/queries"
 
 type FormData = {
     postTitle: string
@@ -17,6 +18,7 @@ type FormData = {
 export default function PostBox() {
     const { data: session } = useSession()
     const [addPost] = useMutation(ADD_POST)
+    const [addSubreddit] = useMutation(ADD_SUBREDDIT)
 
     const [ imageBoxOpen, setImageBoxOpen ] = useState(false)
     const {
