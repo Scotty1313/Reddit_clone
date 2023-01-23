@@ -18,7 +18,7 @@ type FormData = {
 export default function PostBox() {
     const { data: session } = useSession()
     const [addPost] = useMutation(ADD_POST)
-    const [addSubreddit] = useMutation(ADD_SUBREDDIT)
+    const [addSubreddit] = useMutation(ADD_SUBREDDIT )
 
     const [ imageBoxOpen, setImageBoxOpen ] = useState(false)
     const {
@@ -32,27 +32,69 @@ export default function PostBox() {
     const onSubmit = handleSubmit(async (formData) => {
         console.log(formData)
 
-        try {
-            // Query for subreddit topic
+    try {
+        // Query for subreddit topic
+        const { 
+            data: { getSubredditListByTopic },
+        } =   await client.query({
+            query: GET_SUBREDDIT_BY_TOPIC,
+            variables: {
+                topic: formData.subreddit
+            }
+        })
+
+        const subredditExists = getSubredditListByTopic.length > 0;
+
+        if (!subredditExists) {
+            // create subreddit
+            console.log('Subreddit does not exist! -> creating a NEW subreddit!')
             const { 
-                data: { getSubredditListByTopic },
-            } =   await client.query({
-                query: GET_SUBREDDIT_BY_TOPIC,
+                data: { insertSubreddit: newSubreddit }
+             } = await addSubreddit({
                 variables: {
                     topic: formData.subreddit
                 }
             })
 
-            const subredditExists = getSubredditListByTopic.length > 0;
+            console.log('Creating post...', formData)
+            const image = formData.postImage || ''
 
-            if (!subredditExists) {
-                // create subreddit
-            } else {
-                // use existing subreddit
-            }
+             const {
+                data: { insertpost: newPost }
+             } = await addPost({
+                variables: {
+                    body: formData.postBody,
+                    image: image,
+                    subreddit_id: newSubreddit.id,
+                    title: formData.postTitle,
+                    username: session?.user?.name
+                }
+            })
 
-        } catch (error) {}
-    })
+            console.log('New post added:', newPost)
+        } else {
+            // use existing subreddit
+            console.log('Using existing subreddit!')
+            console.log(getSubredditListByTopic)
+
+            const image = formData.postImage || ''
+
+             const { 
+                data: {insertpost: newPost} 
+            } = await addPost({
+                variables: {
+                    body: formData.postBody,
+                    image: image,
+                    subreddit_id: getSubredditListByTopic[0].id,
+                    title: formData.postTitle,
+                    username: session?.user?.name
+                }
+            })
+
+            console.log('New post added:', newPost)
+        }
+    } catch (error) {}
+})
 
     return (
     <form 
