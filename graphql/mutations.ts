@@ -24,3 +24,14 @@ mutation MyMutation(
         username
     }
 }`
+{/* check mutation at 2:12 ish
+
+export const ADD_SUBREDDIT = gql`
+mutation MyMutation(topic: String!) {
+    insertSubreddit(topic: $topic) {
+        id
+        topic
+        created_at
+    }
+}`
+*/}
