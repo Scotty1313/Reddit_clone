@@ -19,7 +19,7 @@ type FormData = {
 export default function PostBox() {
     const { data: session } = useSession()
     const [addPost] = useMutation(ADD_POST)
-    const [addSubreddit] = useMutation(ADD_SUBREDDIT )
+  {/*  const [addSubreddit] = useMutation(ADD_SUBREDDIT )   */}
 
     const [ imageBoxOpen, setImageBoxOpen ] = useState(false)
     const {
