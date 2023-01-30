@@ -33,7 +33,7 @@ export default function Post({ post }: Props) {
       <p>
         <span>r/{post.subreddit[0]?.topic}</span>
       </p>
-    </div>
+  </div>   
     {/* Body */}
 
     {/* Image */}
