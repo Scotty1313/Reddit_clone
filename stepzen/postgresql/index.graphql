@@ -15,7 +15,8 @@ Table 'post' aliased as GQLName: 'Post'
 """
 type Post {
   body: String
-  comment: [Comment] @materializer(query: "getCommentUsingComment_post_id_fkey")
+  comment: [Comment] 
+  @materializer(query: "getCommentUsingComment_post_id_fkey")
   created_at: DateTime
   id: ID!
   image: String
@@ -24,7 +25,8 @@ type Post {
   subreddit_id: ID
   title: String
   username: String
-  vote: [Vote] @materializer(query: "getVoteUsingVote_post_id_fkey")
+  vote: [Vote] 
+  @materializer(query: "getVoteUsingVote_post_id_fkey")
 }
 
 """
@@ -158,7 +160,7 @@ type Query {
       type: "postgresql"
       schema: "public"
       query: """
-      SELECT * from "subreddit" where "topic" = $1
+      SELECT * FROM "subreddit" WHERE "topic" = $1
       """
       configuration: "postgresql_config"
     )
@@ -322,7 +324,7 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertSubreddit(topic: String, created_at: DateTime): Subreddit
+  insertSubreddit(topic: String!): Subreddit
     @dbquery(
       type: "postgresql"
       schema: "public"
