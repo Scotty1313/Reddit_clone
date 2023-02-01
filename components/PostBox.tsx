@@ -19,7 +19,7 @@ type FormData = {
 export default function PostBox() {
     const { data: session } = useSession()
     const [addPost] = useMutation(ADD_POST)
-  {/*  const [addSubreddit] = useMutation(ADD_SUBREDDIT )   */}
+    const [addSubreddit] = useMutation(ADD_SUBREDDIT)   
 
     const [ imageBoxOpen, setImageBoxOpen ] = useState(false)
     const {
@@ -27,7 +27,7 @@ export default function PostBox() {
         setValue,
         handleSubmit,
         watch,
-        formState: { errors },
+        formState: { errors }
     } = useForm<FormData>()
 
     const onSubmit = handleSubmit(async (formData) => {
@@ -50,6 +50,7 @@ export default function PostBox() {
         if (!subredditExists) {
             // create subreddit
             console.log('Subreddit does not exist! -> creating a NEW subreddit!')
+            
             const { 
                 data: { insertSubreddit: newSubreddit }
              } = await addSubreddit({
