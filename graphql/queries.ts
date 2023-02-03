@@ -10,7 +10,7 @@ query MyQuery{
         title
         subreddit_id
         username
-        comments {
+        comment {
             created_at
             id
             post_id
@@ -22,7 +22,7 @@ query MyQuery{
             id
             topic
         }
-        votes {
+        vote {
             created_at
             id
             post_id
@@ -34,7 +34,7 @@ query MyQuery{
 
 export const GET_SUBREDDIT_BY_TOPIC = gql`
 query MyQuery($topic: String!) {
-    getSubredditListByTopic(topic: $topic) {
+    getSubredditList(topic: $topic) {
         id
         topic
         created_at
