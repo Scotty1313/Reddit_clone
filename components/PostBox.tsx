@@ -38,7 +38,7 @@ export default function PostBox() {
         // Query for subreddit topic
         const { 
             data: { getSubredditListByTopic },
-        } =   await client.query({
+        }   = await client.query({
             query: GET_SUBREDDIT_BY_TOPIC,
             variables: {
                 topic: formData.subreddit
@@ -63,14 +63,14 @@ export default function PostBox() {
             const image = formData.postImage || ''
 
              const {
-                data: { insertpost: newPost }
+                data: { insertPost: newPost }
              } = await addPost({
                 variables: {
                     body: formData.postBody,
                     image: image,
                     subreddit_id: newSubreddit.id,
                     title: formData.postTitle,
-                    username: session?.user?.name
+                    username: session?.user?.name,
                 }
             })
 
@@ -129,7 +129,7 @@ export default function PostBox() {
                     className="flex-1 rounded-md bg-gray-50 p-2 pl-5 outline-none"
                     type="text"
                     placeholder={
-                        session? "Create a post by entering a title" : "Sign in to post"
+                        session ? "Create a post by entering a title" : "Sign in to post"
                     }
                 />
 
