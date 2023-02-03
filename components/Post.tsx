@@ -12,7 +12,7 @@ import Avatar from "./Avatar"
 
 type Props = {
     post: Post
-};
+}
 
 export default function Post({ post }: Props) {
   return (
@@ -29,7 +29,7 @@ export default function Post({ post }: Props) {
     <div className="p-3 pb-1">
       {/* Header */}
       <div>
-        <Avatar  seed={post.subreddit[0]?.topic}  />
+        <Avatar seed={post.subreddit[0]?.topic}  />
         <p>
           <span>r/{post.subreddit[0]?.topic}</span>
         </p>
