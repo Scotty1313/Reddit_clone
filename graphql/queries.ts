@@ -10,7 +10,7 @@ query MyQuery{
         title
         subreddit_id
         username
-        comment {
+        comments {
             created_at
             id
             post_id
@@ -22,7 +22,7 @@ query MyQuery{
             id
             topic
         }
-        vote {
+        votes {
             created_at
             id
             post_id
