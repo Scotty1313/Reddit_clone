@@ -18,22 +18,26 @@ type FormData = {
 
 export default function PostBox() {
     const { data: session } = useSession()
-    const [addPost] = useMutation(ADD_POST)
+    const [addPost] = useMutation(ADD_POST, {
+        refetchQueries: ['GetAllPosts', "getPostList"],
+    })
+        
+    
     const [addSubreddit] = useMutation(ADD_SUBREDDIT)   
 
-    const [ imageBoxOpen, setImageBoxOpen ] = useState(false)
+    const [ imageBoxOpen, setImageBoxOpen ] = useState<boolean>(false)
     const {
         register,
         setValue,
         handleSubmit,
         watch,
-        formState: { errors }
+        formState: { errors },
     } = useForm<FormData>()
 
     const onSubmit = handleSubmit(async (formData) => {
         console.log(formData)
         const notification = toast.loading('Creating new post...')
-
+        
     try {
         // Query for subreddit topic
         const { 
