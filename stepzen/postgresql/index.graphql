@@ -45,7 +45,6 @@ Table 'subreddit' aliased as GQLName: 'Subreddit'
 type Subreddit {
   created_at: DateTime
   id: ID!
-  post: [Post] 
   topic: String
 }
 
@@ -55,9 +54,8 @@ Table 'vote' aliased as GQLName: 'Vote'
 type Vote {
   created_at: DateTime
   id: ID!
-  post: Post 
   post_id: ID
-  upvote: Boolean
+  upvote: Int
   username: String
 }
 
@@ -80,6 +78,15 @@ type Query {
       schema: "public"
       query: """
       SELECT * FROM "comment" WHERE "post_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getCommentByPost_idAndUsername(post_id: ID!, username: String!): [Comment]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT * FROM "comment" WHERE "post_id" = $1 AND "username" = $2
       """
       configuration: "postgresql_config"
     )
@@ -111,7 +118,9 @@ type Query {
     @dbquery(
       type: "postgresql"
       schema: "public"
-      table: "post"
+      query: """
+      SELECT * FROM "post" ORDER BY "post"."created_at" DESC
+      """
       configuration: "postgresql_config"
     )
   getPostPaginatedList(first: Int, after: Int): [Post]
@@ -119,7 +128,8 @@ type Query {
       type: "postgresql"
       schema: "public"
       query: """
-      SELECT "body", "created_at", "id", "image", "subreddit_id", "title", "username" FROM "post" ORDER BY "id" LIMIT $1 OFFSET $2
+      SELECT "body", "created_at", "id", "image", "subreddit_id", "title", 
+      "username" FROM "post" ORDER BY "id" LIMIT $1 OFFSET $2
       """
       configuration: "postgresql_config"
     )
