@@ -25,8 +25,8 @@ export default function Subreddit() {
         </div>
 
         <div className="mx-auto mt-5 max-w-5xl pb-10" >
-            <PostBox />
-            <Feed />
+            <PostBox subreddit={topic}  />
+            <Feed topic={topic} />
         </div>
     </div>
     )
