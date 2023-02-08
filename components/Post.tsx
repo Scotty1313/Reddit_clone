@@ -32,7 +32,7 @@ export default function Post({ post }: Props) {
     <div className="p-3 pb-1">
       {/* Header */}
       <div className="flex items-center space-x-2">
-      <Avatar seed={post.subreddit[0]?.topic}  />
+        <Avatar seed={post.subreddit[0]?.topic} />
         <p className="text-xs text-gray-400">
           <span className="font-bold text-black hover:text-bluee-400 
           hover:underline">
