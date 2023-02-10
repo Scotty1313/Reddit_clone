@@ -1,5 +1,6 @@
 import TimeAgo from 'timeago-react'
 import Avatar from "./Avatar"
+import Link from 'next/link'
 
 import {
   ArrowDownIcon,
@@ -19,6 +20,7 @@ type Props = {
 
 export default function Post({ post }: Props) {
   return (
+ <Link href={`post/${post.id}`}>
   <div className="rounded-md flex cursor-pointer border border-gray-300
   bg-white shadow-sm hover:border hover:border-gray-600">
     {/*Votes*/}
@@ -34,10 +36,12 @@ export default function Post({ post }: Props) {
       <div className="flex items-center space-x-2">
         <Avatar seed={post.subreddit[0]?.topic} />
         <p className="text-xs text-gray-400">
-          <span className="font-bold text-black hover:text-bluee-400 
-          hover:underline">
-            r/{post.subreddit[0]?.topic}
+          <Link href={`/subreddit/${post.subreddit[0]?.topic}`}>
+            <span className="font-bold text-black hover:text-bluee-400 
+              hover:underline">
+              r/{post.subreddit[0]?.topic}
             </span>
+          </Link> 
              • Posted by u/{post.username}
           <TimeAgo datetime={post.created_at} />
         </p>
@@ -76,6 +80,7 @@ export default function Post({ post }: Props) {
       </div>
     </div>
   </div>
+</Link>  
   )
 }
 
