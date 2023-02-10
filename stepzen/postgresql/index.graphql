@@ -97,15 +97,6 @@ type Query {
       table: "comment"
       configuration: "postgresql_config"
     )
-  getCommentPaginatedList(first: Int, after: Int): [Comment]
-    @dbquery(
-      type: "postgresql"
-      schema: "public"
-      query: """
-      SELECT "created_at", "id", "post_id", "text", "username" FROM "comment" ORDER BY "id" LIMIT $1 OFFSET $2
-      """
-      configuration: "postgresql_config"
-    )
   " Queries for type 'Post' "
   getPost(id: ID!): Post
     @dbquery(
@@ -123,13 +114,22 @@ type Query {
       """
       configuration: "postgresql_config"
     )
-  getPostPaginatedList(first: Int, after: Int): [Post]
+  getPostListByPostId(post_id: ID!): Post
     @dbquery(
       type: "postgresql"
       schema: "public"
       query: """
-      SELECT "body", "created_at", "id", "image", "subreddit_id", "title", 
-      "username" FROM "post" ORDER BY "id" LIMIT $1 OFFSET $2
+      SELECT * FROM "post" WHERE "post"."id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+
+  getPostListByTopic(topic: String!): [Post]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT * FROM "post" WHERE "subreddit_id" = $1 ORDER BY "post"."created_at" DESC
       """
       configuration: "postgresql_config"
     )
@@ -166,15 +166,6 @@ type Query {
       """
       configuration: "postgresql_config"
     )
-  getSubredditPaginatedList(first: Int, after: Int): [Subreddit]
-    @dbquery(
-      type: "postgresql"
-      schema: "public"
-      query: """
-      SELECT "created_at", "id", "topic" FROM "subreddit" ORDER BY "id" LIMIT $1 OFFSET $2
-      """
-      configuration: "postgresql_config"
-    )
   " Queries for type 'Vote' "
   getVote(id: ID!): Vote
     @dbquery(
@@ -198,15 +189,6 @@ type Query {
       type: "postgresql"
       schema: "public"
       table: "vote"
-      configuration: "postgresql_config"
-    )
-  getVotePaginatedList(first: Int, after: Int): [Vote]
-    @dbquery(
-      type: "postgresql"
-      schema: "public"
-      query: """
-      SELECT "created_at", "id", "post_id", "upvote", "username" FROM "vote" ORDER BY "id" LIMIT $1 OFFSET $2
-      """
       configuration: "postgresql_config"
     )
 }
