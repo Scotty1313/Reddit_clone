@@ -208,9 +208,9 @@ type Mutation {
       configuration: "postgresql_config"
     )
   insertComment(
-    username: String
-    post_id: ID
-    text: String
+    username: String!
+    post_id: ID!
+    text: String!
     created_at: DateTime
   ): Comment
     @dbquery(
@@ -332,10 +332,10 @@ type Mutation {
       configuration: "postgresql_config"
     )
   insertVote(
-    username: String
-    post_id: ID
+    username: String!
+    post_id: ID!
     created_at: DateTime
-    upvote: Boolean
+    upvote: Boolean!
   ): Vote
     @dbquery(
       type: "postgresql"
