@@ -17,7 +17,7 @@ type FormData = {
 }
 
 type Props = {
-    subreddit: string
+    subreddit?: string
 }
 
 export default function PostBox({ subreddit}: Props) {
@@ -65,7 +65,7 @@ export default function PostBox({ subreddit}: Props) {
                 variables: {
                     topic: formData.subreddit
                 }
-            })
+            }) 
 
             console.log('Creating post...', formData)
             const image = formData.postImage || ''
